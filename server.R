@@ -14,6 +14,7 @@ shinyServer(function(input, output) {
     if(!is.null(input$data)){
       datas <<- read_csv(input$data[1,4])
     } else {
+      data("house")
       datas <<- house
     }
     output$colnames_y <- renderUI({
