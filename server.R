@@ -46,7 +46,9 @@ shinyServer(function(input, output) {
 
       })
       output$stats <- renderTable({
-        coef(summary(mod))["D",, drop=FALSE]
+        mod_sum <- summary(mod)
+        coefMat <- if(input$estim=="Parametric") mod_sum$coefficients else mod_sum$coefMat
+        coefMat["D",,drop=FALSE]
       })
     }
   })
