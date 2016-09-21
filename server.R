@@ -18,7 +18,7 @@ shinyServer(function(input, output) {
       datas <<- house
     }
     output$colnames_y <- renderUI({
-      selectInput("colnames_y", "Outcome variable", colnames(datas))
+      selectInput("colnames_y", "Outcome variable", rev(colnames(datas)))
     })
     output$colnames_x <- renderUI({
       selectInput("colnames_x", "Forcing variable", colnames(datas))
