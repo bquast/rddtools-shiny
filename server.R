@@ -37,7 +37,7 @@ shinyServer(function(input, output) {
       if(input$estim=="Parametric"){
         mod <- rdd_reg_lm(rd, order=input$param)
       } else {
-        mod <- rdd_reg_np(rd, bw=input$param)
+        mod <- rdd_reg_np(rd, bw=input$param2)
       }
       
       output$plot <- renderPlot({
