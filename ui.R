@@ -3,6 +3,10 @@ library(shiny)
 # library(shinyIncubator)
 
 shinyUI(fluidPage(
+
+  # Google Analytics
+  tags$head(includeScript("google-analytics.js")),
+
   # Application title
   headerPanel("RDD interface"),
   
