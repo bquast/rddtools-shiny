@@ -1,5 +1,6 @@
 library(rddtools)
-library(readr)
+library(stringr)
+
 
 ## mat code: runApp("/home/matifou/Dropbox/Matt-Amit/try2",display.mode = "showcase")
 myTxt <- "This is our 3rd edition of most of these plays.  See the index.
@@ -12,7 +13,18 @@ shinyServer(function(input, output) {
   
   observe({
     if(!is.null(input$data)){
-      datas <- read_csv(input$data[1,4])
+      path <- input$data[1,4]
+      ext <- str_extract(path, "\\.[aA-zZ]+$")
+      ext <- tolower(ext)
+      
+      ## specify function and library to use
+      read_fun <- switch(ext, ".csv"=read_csv, ".xls"=read_excel, ".xslx"=read_excel, 
+                         ".dta"=read.dta, ".sav"=read_sav, ".sas"=read_sas)
+      read_lib <- switch(ext, ".csv"="readr", ".xls"="readxl", ".xslx"="readxl", 
+                         "haven")
+      ## import the file
+      library(read_lib, character.only=TRUE)
+      datas <- read_fun(path)
     } else {
       data("house")
       datas <- house
