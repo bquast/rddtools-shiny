@@ -12,10 +12,10 @@ shinyServer(function(input, output) {
   
   observe({
     if(!is.null(input$data)){
-      datas <<- read_csv(input$data[1,4])
+      datas <- read_csv(input$data[1,4])
     } else {
       data("house")
-      datas <<- house
+      datas <- house
     }
     output$colnames_y <- renderUI({
       selectInput("colnames_y", "Outcome variable", rev(colnames(datas)))
@@ -23,11 +23,7 @@ shinyServer(function(input, output) {
     output$colnames_x <- renderUI({
       selectInput("colnames_x", "Forcing variable", colnames(datas))
     })
-  })
- 
-  
-  observe({
-    # Run whenever button is pressed, then stay reactive.
+
     if (input$update){
       
       ## Declare data 
