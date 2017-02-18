@@ -22,7 +22,7 @@ shinyServer(function(input, output) {
       read_lib <- switch(ext, ".csv"="readr", ".xls"="readxl", ".xslx"="readxl", 
                          "haven")
       library(read_lib, character.only=TRUE)
-      read_fun <- switch(ext, ".csv"=read_csv, ".xls"=read_excel, ".xslx"=read_excel, 
+      read_fun <- switch(ext, ".csv"=read_csv, ".xls"=readxl:::read_xls, ".xslx"=readxl:::read_xlsx, 
                          ".dta"=read_dta, ".sav"=read_sav, ".sas"=read_sas)
       
       ## import the file
