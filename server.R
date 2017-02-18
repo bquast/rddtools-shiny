@@ -13,17 +13,19 @@ shinyServer(function(input, output) {
   
   observe({
     if(!is.null(input$data)){
-      path <- input$data[1,4]
-      ext <- str_extract(path, "\\.[aA-zZ]+$")
+      path <- input$data[1,"datapath"]
+      name <- input$data[1,"name"]
+      ext <- str_extract(name, "\\.[aA-zZ]+$")
       ext <- tolower(ext)
       
       ## specify function and library to use
-      read_fun <- switch(ext, ".csv"=read_csv, ".xls"=read_excel, ".xslx"=read_excel, 
-                         ".dta"=read.dta, ".sav"=read_sav, ".sas"=read_sas)
       read_lib <- switch(ext, ".csv"="readr", ".xls"="readxl", ".xslx"="readxl", 
                          "haven")
-      ## import the file
       library(read_lib, character.only=TRUE)
+      read_fun <- switch(ext, ".csv"=read_csv, ".xls"=read_excel, ".xslx"=read_excel, 
+                         ".dta"=read_dta, ".sav"=read_sav, ".sas"=read_sas)
+      
+      ## import the file
       datas <- read_fun(path)
     } else {
       data("house")
