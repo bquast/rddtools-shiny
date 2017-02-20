@@ -26,13 +26,17 @@ shinyUI(fluidPage(
     h4("Model choices"),
     selectInput('estim', 'Estimator:', choices=c("Parametric", "Non-parametric")),
     conditionalPanel(
-      condition = "input.estim == 'Parametric'",
+      condition = "input.update & input.estim == 'Parametric'",
       sliderInput("param", "Smoothing parameter:", 
                   min = 0,  max = 5,  value = 1)),
     conditionalPanel(
-      condition = "input.estim == 'Non-parametric'",
+      condition = "input.update & input.estim == 'Non-parametric'",
       sliderInput("param2", "Smoothing parameter:", 
                   min = 0.01,  max = 2,  value = 0.1)),
+    conditionalPanel(
+      condition = "input.update",
+      uiOutput("slideBin")
+      ),
     h4("Plot"),
     plotOutput("plot"),
     h4("Results"),

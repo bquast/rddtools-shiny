@@ -49,10 +49,20 @@ shinyServer(function(input, output) {
       } else {
         mod <- rdd_reg_np(rd, bw=input$param2)
       }
+      binwidth_default <- mean(rdd_bw_cct_plot(mod)$results["Bin Length",])
+      bin_def_min <- min(0.01, binwidth_default/4)
+      bin_def_max <- binwidth_default*4
       
+      output$slideBin <- renderUI({
+        sliderInput("inSlider", "Cell binwidth parameter: ",
+                    min=signif(bin_def_min,2),#, #
+                    max=signif(bin_def_max,2),#binwidth_default*4, 
+                    value=signif(binwidth_default,2),
+        round=-2)
+      })
       output$plot <- renderPlot({
         ## result
-        plot(mod)
+        plot(mod, binwidth=input$inSlider)
 
       })
       output$stats <- renderTable({
