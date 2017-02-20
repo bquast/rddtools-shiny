@@ -31,8 +31,10 @@ shinyUI(fluidPage(
                   min = 0,  max = 5,  value = 1)),
     conditionalPanel(
       condition = "input.update & input.estim == 'Non-parametric'",
-      sliderInput("param2", "Smoothing parameter:", 
-                  min = 0.01,  max = 2,  value = 0.1)),
+      sliderInput("param2", "Smoothing parameter:",
+                  min = 0.01,  max = 2,  value = 0.1)
+      # uiOutput("slideBand")
+      ),
     conditionalPanel(
       condition = "input.update",
       uiOutput("slideBin")

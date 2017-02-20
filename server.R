@@ -43,23 +43,36 @@ shinyServer(function(input, output) {
       ## Declare data 
       rd<- rdd_data(x=datas[,input$colnames_x], y=datas[,input$colnames_y], cutpoint=0)
       
+      ## band width default
+      # bandwidth_default <- rdd_bw_ik(rd)
+      
+      # output$slideBand <- renderUI({
+      #   sliderInput("param2", "Smoothing parameter: ",
+      #               min=signif(min(0.01, bandwidth_default/4),2),
+      #               max=signif(bandwidth_default*4,2),
+      #               value=signif(bandwidth_default,2))
+      # })
+      
+
       ## estimation
       if(input$estim=="Parametric"){
         mod <- rdd_reg_lm(rd, order=input$param)
       } else {
         mod <- rdd_reg_np(rd, bw=input$param2)
       }
+      
+      ## bin width default
       binwidth_default <- mean(rdd_bw_cct_plot(mod)$results["Bin Length",])
       bin_def_min <- min(0.01, binwidth_default/4)
       bin_def_max <- binwidth_default*4
       
       output$slideBin <- renderUI({
         sliderInput("inSlider", "Cell binwidth parameter: ",
-                    min=signif(bin_def_min,2),#, #
-                    max=signif(bin_def_max,2),#binwidth_default*4, 
-                    value=signif(binwidth_default,2),
-        round=-2)
+                    min=signif(bin_def_min,2),
+                    max=signif(bin_def_max,2),
+                    value=signif(binwidth_default,2))
       })
+      
       output$plot <- renderPlot({
         ## result
         plot(mod, binwidth=input$inSlider)
